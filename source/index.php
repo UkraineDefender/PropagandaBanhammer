@@ -28,7 +28,9 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            window.location.reload();
+            setTimeout(function() {
+                window.location.reload();
+            }, 3000);
         });
         setInterval(function() {
             window.scrollTo(0, document.querySelector(".scrolling-content").scrollHeight);
@@ -107,7 +109,19 @@
                         }
                         catch (Exception $e)
                         {
-                            echoAsync('<span class="alert">Помилка: ' . $e->getMessage() . '</span>');
+                            $errorMessage = $e->getMessage();
+
+                            if(!str_contains($errorMessage, 'FLOOD_WAIT_'))
+                            {
+                                echoAsync('<span class="alert">Помилка: ' . $e->getMessage() . '</span>');
+                            }
+                            else
+                            {
+                                echoAsync('<span class="alert">Telegram тимчасово не дозволяє відправляти репорти з аккаунту: ' . $e->getMessage() . '</span>');
+                                $MadelineProto->stop();
+                                break;
+                            }
+
                             $MadelineProto->logger($e);
                         }
 
