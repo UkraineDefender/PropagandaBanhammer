@@ -19,5 +19,5 @@ if exist ..\php\php.exe (
         echo PHP download failed.
     )
 )
-
+start http://localhost:3539
 ..\php\php.exe -S localhost:3539
