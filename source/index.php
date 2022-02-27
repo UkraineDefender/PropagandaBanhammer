@@ -30,7 +30,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
                 window.location.reload();
-            }, 3000);
+            }, 20000);
         });
         setInterval(function() {
             window.scrollTo(0, document.querySelector(".scrolling-content").scrollHeight);
