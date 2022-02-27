@@ -27,6 +27,9 @@
         }
     </style>
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            window.location.reload();
+        });
         setInterval(function() {
             window.scrollTo(0, document.querySelector(".scrolling-content").scrollHeight);
         }, 300);
