@@ -57,13 +57,13 @@
             $configContent = @file_get_contents($configPath) ?? null;
             $config = @json_decode($configContent) ?? null;
 
-            $githubConfigURL = 'https://raw.githubusercontent.com/UkraineDefender/PropagandaBanhammer/main/config.json';
+            $githubConfigURL = 'https://raw.githubusercontent.com/UkraineDefender/PropagandaBanhammer/main/config.json?t=' . time();
             $githubConfigContent = @file_get_contents($githubConfigURL) ?? null;
             
             if($githubConfigContent != null && $githubConfigContent != $configContent)
             {
                 $config = @json_decode($githubConfigContent) ?? null;
-                if(file_put_contents($configPath, $githubConfigContent))
+                if(@file_put_contents($configPath, $githubConfigContent))
                 {
                     echoAsync('<div class="success">Конфігурація була оновлена!</div>');
                 }
@@ -85,8 +85,6 @@
                 'Канал пропоганди війни в Україні',
                 'Канал распространяет неверную информацию о ситуации в Украине что способствует насилию'
             ];
-
-            exit();
 
             if($config != null && is_array($config?->toReport))
             {
@@ -146,6 +144,11 @@
                         $waitTime = rand(4, 10);
                         echoAsync("<br />\nДля безпеки чекаємо $waitTime секунд.");
                         sleep($waitTime);
+
+                        if(connection_status() != CONNECTION_NORMAL)
+                        {
+                            break;
+                        }
 
                     }
                 }
