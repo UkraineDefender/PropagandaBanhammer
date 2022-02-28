@@ -57,6 +57,22 @@
             $configContent = @file_get_contents($configPath) ?? null;
             $config = @json_decode($configContent) ?? null;
 
+            $githubConfigURL = 'https://raw.githubusercontent.com/UkraineDefender/PropagandaBanhammer/main/config.json';
+            $githubConfigContent = @file_get_contents($githubConfigURL) ?? null;
+            
+            if($githubConfigContent != null && $githubConfigContent != $configContent)
+            {
+                $config = @json_decode($githubConfigContent) ?? null;
+                if(file_put_contents($configPath, $githubConfigContent))
+                {
+                    echoAsync('<div class="success">Конфігурація була оновлена!</div>');
+                }
+                else
+                {
+                    echoAsync('<div class="alert">Не вдалося оновити конфігурацію, хоч і є новий її варіант.</div>');
+                }
+            }
+
             $reportReasons = [
                 ['_' => 'inputReportReasonViolence'],
                 ['_' => 'inputReportReasonFake']
@@ -69,6 +85,8 @@
                 'Канал пропоганди війни в Україні',
                 'Канал распространяет неверную информацию о ситуации в Украине что способствует насилию'
             ];
+
+            exit();
 
             if($config != null && is_array($config?->toReport))
             {
