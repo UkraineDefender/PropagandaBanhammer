@@ -98,8 +98,16 @@
             }
         </style>
         <script>
+            var scrollingContentLength = 0;
+
             setInterval(function() {
-                window.scrollTo(0, document.querySelector(".scrolling-content").scrollHeight);
+                var currentScrollingContentLength = document.querySelector(".scrolling-content").length;
+
+                if(currentScrollingContentLength > scrollingContentLength)
+                {
+                    window.scrollTo(0, document.querySelector(".scrolling-content").scrollHeight);
+                    scrollingContentLength = currentScrollingContentLength;
+                }
 
                 var outputStringsDots = document.querySelectorAll(".scrolling-content p .dots");
 
@@ -111,7 +119,7 @@
                 var lastOutputStringDots = outputStringsDots[outputStringsDots.length - 1];
 
                 lastOutputStringDots.classList.add('waiting');
-            }, 500);
+            }, 300);
         </script>
     </head>
     <body>
@@ -130,7 +138,7 @@
                 @flush();
             }
 
-            echoAsync('Завантажуємо конфігурацію...');
+            echoAsync('Завантажуємо конфігурацію<span class="dots">...</span>');
 
             $configPath = __DIR__ . '/../config.json';
             $configContent = @file_get_contents($configPath) ?? null;
