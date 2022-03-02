@@ -101,7 +101,7 @@
             var scrollingContentLength = 0;
 
             setInterval(function() {
-                var currentScrollingContentLength = document.querySelector(".scrolling-content").length;
+                var currentScrollingContentLength = document.querySelector(".scrolling-content").outerHTML.length;
 
                 if(currentScrollingContentLength > scrollingContentLength)
                 {
