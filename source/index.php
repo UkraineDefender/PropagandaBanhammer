@@ -1,41 +1,120 @@
 <!DOCTYPE html>
 <html lang="ua">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PropagandaBanhammer</title>
-</head>
-<body>
-    <style>
-        html {
-            background-color: #21262d;
-            color: white;
-            font-family: 'Consolas';
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PropagandaBanhammer</title>
+        <style>
+            html {
+                background-color: #21262d;
+                color: white;
+                font-family: 'Consolas';
+            }
 
-        .success {
-            color: #7EE77A;
-        }
+            html, body {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+            }
 
-        .failed {
-            color: #ff7b72;
-        }
+            .auth-form-wrapper {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                background-color: rgba(0,0,0,.6);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                backdrop-filter: blur(5px);
+            }
 
-        .alert {
-            color: #ffa657;
-        }
-    </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                window.location.reload();
-            }, 20000);
-        });
-        setInterval(function() {
-            window.scrollTo(0, document.querySelector(".scrolling-content").scrollHeight);
-        }, 300);
-    </script>
+            input, select {
+                background: #21262d;
+                color: white;
+                border: none;
+                padding: 10px;
+                border-radius: 10px;
+                padding-left: 20px;
+                padding-right: 20px;
+                outline: none;
+            }
+
+            button {
+                background: #21262d;
+                color: white;
+                border: none;
+                padding: 10px;
+                border-radius: 10px;
+                padding-left: 30px;
+                padding-right: 30px;
+                outline: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            button:hover {
+                opacity: .8;
+            }
+
+            .auth-form {
+                text-align: center;
+            }
+
+            .success {
+                color: #7EE77A;
+            }
+
+            .failed {
+                color: #ff7b72;
+            }
+
+            .alert {
+                color: #ffa657;
+            }
+
+            .scrolling-content {
+                padding: 50px;
+                box-sizing: border-box;
+            }
+
+            .dots.waiting {
+                display: inline-block;
+                background: linear-gradient(to right, rgba(255,255,255,1) 20%, rgba(255,255,255,.1) 40%, rgba(255,255,255,.1) 60%, rgba(255,255,255,1) 80%);
+                background-size: 200% auto;
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                animation: shine 0.5s linear infinite reverse;
+            }
+            
+            @keyframes shine {
+                to {
+                    background-position: 200% center;
+                }
+            }
+        </style>
+        <script>
+            setInterval(function() {
+                window.scrollTo(0, document.querySelector(".scrolling-content").scrollHeight);
+
+                var outputStringsDots = document.querySelectorAll(".scrolling-content p .dots");
+
+                for(var i = 0; i < outputStringsDots.length - 1; i++)
+                {
+                    outputStringsDots[i].classList.remove('waiting');
+                }
+
+                var lastOutputStringDots = outputStringsDots[outputStringsDots.length - 1];
+
+                lastOutputStringDots.classList.add('waiting');
+            }, 500);
+        </script>
+    </head>
+    <body>
         <div class="scrolling-content">
             <?php
 
@@ -46,9 +125,9 @@
 
             function echoAsync($text)
             {
-                echo $text . "<br />\n";
-                @flush();
+                echo "<p>" . $text . "</p>\n";
                 @ob_flush();
+                @flush();
             }
 
             echoAsync('Завантажуємо конфігурацію...');
@@ -88,7 +167,7 @@
 
             if($config != null && is_array($config?->toReport))
             {
-                echoAsync('Входимо у Telegram аккаунт...');
+                echoAsync(@file_exists('session.madeline') ? 'Входимо у Telegram аккаунт<span class="dots">...</span>' : 'Очікуємо авторизації у Telegram<span class="dots">...</span>');
 
                 $settings = new \danog\MadelineProto\Settings;
                 $appInfo = new \danog\MadelineProto\Settings\AppInfo;
@@ -97,6 +176,12 @@
                 $appInfo->setApiHash('0dd283cde9a1696ee945876115ce8eca');
 
                 $settings->setAppInfo($appInfo);
+
+                $madelineViewTemplate = @file_get_contents(__DIR__ . '/web/templates/madeline.html') ?? 'Не вдалося завантажити шаблон для MadelineProto.';
+                
+                $madelineTemplates = $settings->getTemplates();
+                $madelineTemplates->setHtmlTemplate($madelineViewTemplate);
+                $settings->setTemplates($madelineTemplates);
 
                 $MadelineProto = new \danog\MadelineProto\API('session.madeline', $settings);
                 $MadelineProto->start();
@@ -116,7 +201,7 @@
 
                     foreach($toReport as $peerToReport)
                     {
-                        echoAsync("<br />\nПробуємо відіслати репорт на " . $peerToReport);
+                        echoAsync("<br />\nПробуємо відіслати репорт на " . $peerToReport . "<span class=\"dots\">...</span>");
                         
                         try
                         {
@@ -134,30 +219,34 @@
                             else
                             {
                                 echoAsync('<span class="alert">Telegram тимчасово не дозволяє відправляти репорти з аккаунту: ' . $e->getMessage() . '</span>');
+                                echoAsync('<script>setTimeout(() => location.reload(), 5000);</script>');
+                                echoAsync("<br />\n<br />\nОновлюємо сторінку щоб спробувати ще<span class=\"dots\">...</span>");
                                 $MadelineProto->stop();
-                                break;
+                                exit();
                             }
 
                             $MadelineProto->logger($e);
                         }
 
                         $waitTime = rand(4, 10);
-                        echoAsync("<br />\nДля безпеки чекаємо $waitTime секунд.");
+                        echoAsync("<br />\nДля безпеки чекаємо $waitTime секунд<span class=\"dots\">...</span>");
                         sleep($waitTime);
 
                         if(connection_status() != CONNECTION_NORMAL)
                         {
-                            break;
+                            $MadelineProto->stop();
+                            exit();
                         }
 
                     }
+
+                    echoAsync("<br />\n<br />\nПрограма виконана успішно.<br />\nОновлюємо сторінку<span class=\"dots\">...</span>");
+                    echoAsync('<script>setTimeout(() => location.reload(), 2000);</script>');
                 }
                 else
                 {
                     echoAsync('Програма може працювати тільки з використянням звичайного акаунту.');
                 }
-
-                echoAsync("<br />\n<br />\nПрограма виконана успішно!");
             }
             else
             {
