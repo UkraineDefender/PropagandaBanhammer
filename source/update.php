@@ -150,6 +150,8 @@
 
                     echoAsync('Видаляємо тимчасові файли<span class="dots">...</span>');
 
+                    $zip->close();
+                    
                     $tmpHandle = opendir($tempDirPath);
                     closedir($tmpHandle);
                     @rmdir($tempDirPath);
