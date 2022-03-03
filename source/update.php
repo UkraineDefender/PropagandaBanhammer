@@ -149,6 +149,9 @@
                     echoAsync('<span class="success">Зкопіювали!</span><br /><br />');
 
                     echoAsync('Видаляємо тимчасові файли<span class="dots">...</span>');
+
+                    $tmpHandle = opendir($tempDirPath);
+                    closedir($tmpHandle);
                     @rmdir($tempDirPath);
 
                     echoAsync('<span class="success">Видалили!</span><br /><br />');
