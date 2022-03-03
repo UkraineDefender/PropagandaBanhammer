@@ -115,6 +115,25 @@
                 closedir($dir);
             } 
 
+            function removeDir($target)
+            {
+                $directory = new RecursiveDirectoryIterator($target,  FilesystemIterator::SKIP_DOTS);
+                $files = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::CHILD_FIRST);
+                foreach($files as $file)
+                {
+                    if(is_dir($file))
+                    {
+                        rmdir($file);
+                    }
+                    else
+                    {
+                        unlink($file);
+                    }
+                }
+
+                rmdir($target);
+            }
+
             echoAsync('Завантажуємо останню версію програми<span class="dots">...</span>');
 
             $tempDirPath = __DIR__ . '/tmp';
@@ -150,11 +169,7 @@
 
                     echoAsync('Видаляємо тимчасові файли<span class="dots">...</span>');
 
-                    $zip->close();
-                    
-                    $tmpHandle = opendir($tempDirPath);
-                    closedir($tmpHandle);
-                    @rmdir($tempDirPath);
+                    removeDir($tempDirPath);
 
                     echoAsync('<span class="success">Видалили!</span><br /><br />');
 

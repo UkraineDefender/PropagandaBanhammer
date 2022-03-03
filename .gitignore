@@ -1,6 +1,7 @@
 source/session.*
 source/MadelineProto.log
 source/tmp
+source/*.new
 php/*
 !php/.gitignore
 tools/.wget-hsts
