@@ -125,13 +125,14 @@
     <body>
         <div class="scrolling-content">
             <?php
+            exit('aboba');
 
             error_reporting(E_ALL ^ E_DEPRECATED);
             set_time_limit(0);
 
             require_once 'vendor/autoload.php';
 
-            function echoAsync($text)
+            function echoAsync(string $text)
             {
                 echo "<p>" . $text . "</p>\n";
                 @ob_flush();
