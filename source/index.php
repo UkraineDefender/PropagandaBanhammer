@@ -153,6 +153,9 @@
                 if(@file_put_contents($configPath, $githubConfigContent))
                 {
                     echoAsync('<div class="success">Конфігурація була оновлена!</div>');
+                    sleep(1);
+                    echoAsync('<script>confirm("Рекомендується оновити програму. Оновити?") ? location.replace("/update.php") : location.reload()</script>');
+                    exit();
                 }
                 else
                 {
