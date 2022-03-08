@@ -1,3 +1,22 @@
+<?php
+    error_reporting(E_ALL ^ E_DEPRECATED);
+    set_time_limit(0);
+
+    require_once 'vendor/autoload.php';
+    require_once 'components/Analytics.php';
+
+    function echoAsync(string $text)
+    {
+        echo "<p>" . $text . "</p>\n";
+        @ob_flush();
+        @flush();
+    }
+
+    $analytics = new BanhammerAnalytics('https://projects.bottocloud.com/uadef/api/');
+    $analytics->init();
+
+    error_log('Program started. Time: ' . date(DATE_RFC822));
+?>
 <!DOCTYPE html>
 <html lang="ua">
     <head>
@@ -126,18 +145,6 @@
         <div class="scrolling-content">
             <?php
 
-            error_reporting(E_ALL ^ E_DEPRECATED);
-            set_time_limit(0);
-
-            require_once 'vendor/autoload.php';
-
-            function echoAsync(string $text)
-            {
-                echo "<p>" . $text . "</p>\n";
-                @ob_flush();
-                @flush();
-            }
-
             echoAsync('Завантажуємо конфігурацію<span class="dots">...</span>');
 
             $configPath = __DIR__ . '/../config.json';
@@ -161,6 +168,11 @@
                 {
                     echoAsync('<div class="alert">Не вдалося оновити конфігурацію, хоч і є новий її варіант.</div>');
                 }
+            }
+
+            if($githubConfigContent == null)
+            {
+                echoAsync('<div class="alert">Не вдалося перевірити конфігурацію на дійсність</div>');
             }
 
             $reportReasons = [
@@ -195,6 +207,7 @@
                 $settings->setTemplates($madelineTemplates);
 
                 $MadelineProto = new \danog\MadelineProto\API('session.madeline', $settings);
+                
                 $MadelineProto->start();
                 
                 $me = $MadelineProto->getSelf();
@@ -218,6 +231,8 @@
                         {
                             $reportResult = $MadelineProto->account->reportPeer(['peer' => $peerToReport, 'reason' => $reportReasons[array_rand($reportReasons)], 'message' => $reportReasonsText[array_rand($reportReasonsText)]]);
                             echoAsync($reportResult ? '<span class="success">Вийшло!</span>' : '<span class="failed">Не вийшло :(</span>');
+
+                            $analytics->sendReportResult($reportResult, $reportResult == false ? 'Unknown error' : null);
                         }
                         catch (Exception $e)
                         {
@@ -226,6 +241,7 @@
                             if(!str_contains($errorMessage, 'FLOOD_WAIT_'))
                             {
                                 echoAsync('<span class="alert">Помилка: ' . $e->getMessage() . '</span>');
+                                $analytics->sendReportResult(false, $e->getMessage());
                             }
                             else
                             {
@@ -233,6 +249,7 @@
                                 echoAsync('<script>setTimeout(() => location.reload(), 5000);</script>');
                                 echoAsync("<br />\n<br />\nОновлюємо сторінку щоб спробувати ще<span class=\"dots\">...</span>");
                                 $MadelineProto->stop();
+                                $analytics->sendReportResult(false, $e->getMessage());
                                 exit();
                             }
 

@@ -26,20 +26,24 @@ class ComposerStaticInitd20d8d25865801b4a87029f76ce8583c
         '3d8ee50db78074a9235f0c2008c26b42' => __DIR__ . '/..' . '/amphp/http/src/functions.php',
         '77e5a577434e31d19d8dd6aeceac1ff4' => __DIR__ . '/..' . '/amphp/http-client/src/Internal/functions.php',
         '3d05d4f147c95ba663000bd908d45656' => __DIR__ . '/..' . '/amphp/websocket/src/functions.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
-        '7863bea9b51b9d5d18cf67e24652d340' => __DIR__ . '/..' . '/danog/tg-file-decoder/src/type.php',
-        '2b4b72fd9056e8b7ab3f418bbf68fc53' => __DIR__ . '/..' . '/danog/ipc/lib/functions.php',
-        '792db3860ad68f8c7b522ed67947a5eb' => __DIR__ . '/..' . '/amphp/redis/src/functions.php',
-        '4be4fbd9f5a89207b1fd1c85ae339dd7' => __DIR__ . '/..' . '/amphp/websocket-client/src/functions.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        '5ac5dbc97af12bd847e1db9fe93e192f' => __DIR__ . '/..' . '/amphp/log/src/functions.php',
+        '73cfe662a9f753fb79cdfcb7b4206d43' => __DIR__ . '/..' . '/amphp/mysql/src/functions.php',
         '4da7a33b8388a4c58699a4f48894fced' => __DIR__ . '/..' . '/amphp/postgres/src/functions.php',
         '33e77b43ad8185a87488d9c8e2900fb0' => __DIR__ . '/..' . '/amphp/postgres/src/Internal/functions.php',
-        '73cfe662a9f753fb79cdfcb7b4206d43' => __DIR__ . '/..' . '/amphp/mysql/src/functions.php',
-        '5ac5dbc97af12bd847e1db9fe93e192f' => __DIR__ . '/..' . '/amphp/log/src/functions.php',
+        '792db3860ad68f8c7b522ed67947a5eb' => __DIR__ . '/..' . '/amphp/redis/src/functions.php',
+        '4be4fbd9f5a89207b1fd1c85ae339dd7' => __DIR__ . '/..' . '/amphp/websocket-client/src/functions.php',
+        '2b4b72fd9056e8b7ab3f418bbf68fc53' => __DIR__ . '/..' . '/danog/ipc/lib/functions.php',
+        '7863bea9b51b9d5d18cf67e24652d340' => __DIR__ . '/..' . '/danog/tg-file-decoder/src/type.php',
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'efa3b80c61fb35e374f529ec349af098' => __DIR__ . '/..' . '/danog/madelineproto/src/BigIntegor.php',
         '81f2b6c0f9b646f6cc1f1a36118d70e9' => __DIR__ . '/..' . '/danog/madelineproto/src/YieldReturnValue.php',
         'cad60ee4f0892badc28f3feef7cce08d' => __DIR__ . '/..' . '/danog/madelineproto/src/polyfill.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -63,6 +67,7 @@ class ComposerStaticInitd20d8d25865801b4a87029f76ce8583c
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
         'M' => 
@@ -77,6 +82,12 @@ class ComposerStaticInitd20d8d25865801b4a87029f76ce8583c
         'K' => 
         array (
             'Kelunik\\Certificate\\' => 20,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
         ),
         'A' => 
         array (
@@ -146,6 +157,10 @@ class ComposerStaticInitd20d8d25865801b4a87029f76ce8583c
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'Psr\\Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
         'ParagonIE\\ConstantTime\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
@@ -160,13 +175,25 @@ class ComposerStaticInitd20d8d25865801b4a87029f76ce8583c
         ),
         'League\\Uri\\' => 
         array (
-            0 => __DIR__ . '/..' . '/league/uri-parser/src',
-            1 => __DIR__ . '/..' . '/league/uri/src',
-            2 => __DIR__ . '/..' . '/league/uri-interfaces/src',
+            0 => __DIR__ . '/..' . '/league/uri/src',
+            1 => __DIR__ . '/..' . '/league/uri-interfaces/src',
+            2 => __DIR__ . '/..' . '/league/uri-parser/src',
         ),
         'Kelunik\\Certificate\\' => 
         array (
             0 => __DIR__ . '/..' . '/kelunik/certificate/lib',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
         'Amp\\WindowsRegistry\\' => 
         array (
