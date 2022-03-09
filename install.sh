@@ -9,6 +9,19 @@ curl -L -o tmp.zip https://github.com/UkraineDefender/PropagandaBanhammer/archiv
 echo ''
 echo ''
 echo ''
+if ! command -v unzip &> /dev/null
+then
+    case "$(uname -s)" in
+    Linux)
+        sudo apt-get install unzip
+    ;;
+
+    *)
+        echo 'Unzip is missing on your system. You need to install it manually and then try again.'
+        exit
+    ;;
+esac
+fi
 unzip tmp.zip
 echo ''
 echo ''
