@@ -39,4 +39,4 @@ if [ -d "PropagandaBanhammer-main" ]; then rm -Rf "PropagandaBanhammer-main"; fi
 echo ''
 echo ''
 echo ''
-~/uadef/run.sh
+bash ~/uadef/run.sh
