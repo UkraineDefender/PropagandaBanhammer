@@ -65,6 +65,7 @@ case "$(uname -s)" in
             fi
         fi
 
+        open http://localhost:3539
         php -S localhost:3539
     ;;
 
@@ -122,6 +123,7 @@ case "$(uname -s)" in
             fi
         fi
 
+        xdg-open http://localhost:3539
         php -S localhost:3539
     ;;
 
