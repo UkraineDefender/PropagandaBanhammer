@@ -8,7 +8,7 @@ then
     exit
 fi
 
-cd 'source'
+cd ~/uadef/source
 
 case "$(uname -s)" in
 
