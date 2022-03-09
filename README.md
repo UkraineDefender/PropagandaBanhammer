@@ -9,7 +9,7 @@
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/UkraineDefender/PropagandaBanhammer/main/install.sh)"
 ```
-
+<br/>
 
 Для запуска необходимо выполнить команду в Терминале:<br/>
 ```bash
