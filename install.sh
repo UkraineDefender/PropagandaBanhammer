@@ -39,5 +39,8 @@ if [ -d "PropagandaBanhammer-main" ]; then rm -Rf "PropagandaBanhammer-main"; fi
 echo ''
 echo ''
 echo ''
-cd ~/uadef
-bash ~/uadef/run.sh
+echo '--------------------------'
+echo -e '\e[34mSuccessfully installed!\e[0m'
+echo ''
+echo 'INFO:'
+echo 'To run the program, use the command: cd ~/uadef/ && bash run.sh'
