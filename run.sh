@@ -28,6 +28,7 @@ case "$(uname -s)" in
                 echo '-----------------------------------------------------------'
                 echo ''
 
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
                 eval "$(/opt/homebrew/bin/brew shellenv)"
             fi 
 
@@ -52,6 +53,8 @@ case "$(uname -s)" in
             echo 'Adding PHP to PATH...'
             echo '-----------------------------------------------------------'
             echo ''
+            
+            echo 'export PATH="/usr/local/opt/php@8.0/bin:$PATH"' >> ~/.zprofile
             export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 
             if ! command -v php &> /dev/null
@@ -86,6 +89,7 @@ case "$(uname -s)" in
                 echo ''
 
                 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+                echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.profile
             fi 
 
             if ! command -v brew &> /dev/null
@@ -109,8 +113,12 @@ case "$(uname -s)" in
             echo 'Adding PHP to PATH...'
             echo '-----------------------------------------------------------'
             echo ''
+            
             export PATH="/home/linuxbrew/.linuxbrew/opt/php@8.0/bin:$PATH"
             export PATH="/home/linuxbrew/.linuxbrew/opt/php@8.0/sbin:$PATH"
+            echo 'export PATH="/home/linuxbrew/.linuxbrew/opt/php@8.0/bin:$PATH"' >> ~/.profile
+            echo 'export PATH="/home/linuxbrew/.linuxbrew/opt/php@8.0/sbin:$PATH"' >> ~/.profile
+            
 
             if ! command -v php &> /dev/null
             then
@@ -122,8 +130,8 @@ case "$(uname -s)" in
                 exit
             fi
         fi
-
-        xdg-open http://localhost:3539
+        
+        URL="http://localhost:3539"; xdg-open $URL || sensible-browser $URL || x-www-browser $URL || gnome-open $URL
         php -S localhost:3539
     ;;
 
