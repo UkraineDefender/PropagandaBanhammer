@@ -11,5 +11,5 @@
 
 Для запуска необходимо выполнить команду в Терминале:<br/>
 ```bash
-cd ~/uadef/ && bash run.sh
+cd ~/uadef/ && /bin/bash run.sh
 ```
