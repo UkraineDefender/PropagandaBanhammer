@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 cd ~
 if [ -d "uadef" ]; then rm -Rf "uadef"; fi
