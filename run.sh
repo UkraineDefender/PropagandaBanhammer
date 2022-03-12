@@ -68,7 +68,7 @@ case "$(uname -s)" in
             fi
         fi
 
-        open http://localhost:3539
+        open -a "Google Chrome" http://localhost:3539
         php -S localhost:3539
     ;;
 
