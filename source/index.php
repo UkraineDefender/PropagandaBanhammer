@@ -257,11 +257,10 @@
                             echoAsync("Пробуємо відіслати репорт на " . $peerToReport . "<span class=\"dots\">...</span>");
                             $reportResult = $MadelineProto->account->reportPeer(['peer' => $peerToReport, 'reason' => $reportReasons[array_rand($reportReasons)], 'message' => $reportReasonsText[array_rand($reportReasonsText)]]);
                             
+                            echoAsync($reportResult ? '<span class="success">Вийшло!</span>' : '<span class="failed">Не вийшло :(</span>');
 
                             echoAsync("Покидаємо канал " . $peerToReport . "<span class=\"dots\">...</span>");
                             $MadelineProto->channels->leaveChannel(['channel' => $peerToReport]);
-                            
-                            echoAsync($reportResult ? '<span class="success">Вийшло!</span>' : '<span class="failed">Не вийшло :(</span>');
 
                             $analytics->sendReportResult($reportResult, $reportResult == false ? 'Unknown error' : null);
                         }
