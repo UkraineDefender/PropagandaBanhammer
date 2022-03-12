@@ -28,7 +28,7 @@
             html {
                 background-color: #21262d;
                 color: white;
-                font-family: 'Consolas', serif;
+                font-family: 'Consolas', 'menlo', 'monospace', sans-serif;
             }
 
             html, body {
