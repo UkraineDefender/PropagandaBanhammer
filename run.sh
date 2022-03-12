@@ -29,6 +29,7 @@ case "$(uname -s)" in
                 echo ''
 
                 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.bash_profile
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
                 eval "$(/opt/homebrew/bin/brew shellenv)"
             fi 
 
@@ -55,6 +56,7 @@ case "$(uname -s)" in
             echo ''
             
             echo 'export PATH="/usr/local/opt/php@8.0/bin:$PATH"' >> ~/.bash_profile
+            echo 'export PATH="/usr/local/opt/php@8.0/bin:$PATH"' >> ~/.zprofile
             export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 
             if ! command -v php &> /dev/null
