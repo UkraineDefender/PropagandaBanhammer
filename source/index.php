@@ -28,7 +28,7 @@
             html {
                 background-color: #21262d;
                 color: white;
-                font-family: 'Consolas';
+                font-family: 'Consolas', serif;
             }
 
             html, body {
@@ -60,6 +60,7 @@
                 padding-left: 20px;
                 padding-right: 20px;
                 outline: none;
+                -webkit-appearance: none;
             }
 
             button {
