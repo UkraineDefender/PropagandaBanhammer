@@ -129,6 +129,8 @@
                     scrollingContentLength = currentScrollingContentLength;
                 }
 
+                ///////////////////////////////////////////////////////
+
                 var outputStringsDots = document.querySelectorAll(".scrolling-content p .dots");
 
                 for(var i = 0; i < outputStringsDots.length - 1; i++)
@@ -137,8 +139,23 @@
                 }
 
                 var lastOutputStringDots = outputStringsDots[outputStringsDots.length - 1];
-
                 lastOutputStringDots.classList.add('waiting');
+
+                ///////////////////////////////////////////////////////
+
+                var outputStringsWaits = document.querySelectorAll(".scrolling-content p .wait-time");
+                var lastOutputStringWait = outputStringsWaits[outputStringsWaits.length - 1];
+
+                var lastOutputStringWaitValue = parseInt(lastOutputStringWait.innerHTML) ?? 0;
+                var lastOutputStringWaitEndTime = parseInt(lastOutputStringWait.getAttribute('data-end')) ?? 0;
+
+                if(lastOutputStringWaitValue > 0 && lastOutputStringWaitEndTime > 0)
+                {
+                    var timeDiff = lastOutputStringWaitEndTime - (Math.floor(new Date().getTime() / 1000));
+                    timeDiff = timeDiff < 0 ? timeDiff = 0 : timeDiff;
+
+                    lastOutputStringWait.innerHTML = timeDiff;
+                }
             }, 300);
         </script>
     </head>
@@ -226,11 +243,24 @@
 
                     foreach($toReport as $peerToReport)
                     {
-                        echoAsync("<br />\nПробуємо відіслати репорт на " . $peerToReport . "<span class=\"dots\">...</span>");
-                        
                         try
                         {
+                            echoAsync("<br />\nВступаємо до каналу " . $peerToReport . " щоб пізнише відіслати репорт<span class=\"dots\">...</span>");
+                            $joinedChannelUpdates = $MadelineProto->channels->joinChannel(['channel' => $peerToReport]);
+
+                            $waitTime = rand(30, 35);
+                            $currentTimestamp = time();
+                            $waitEndTimestamp = time() + $waitTime;
+                            echoAsync("Для безпеки чекаємо <span class=\"wait-time\" data-start=\"$currentTimestamp\" data-end=\"$waitEndTimestamp\">$waitTime</span> сек.<span class=\"dots\">...</span>");
+                            sleep($waitTime);
+                            
+                            echoAsync("Пробуємо відіслати репорт на " . $peerToReport . "<span class=\"dots\">...</span>");
                             $reportResult = $MadelineProto->account->reportPeer(['peer' => $peerToReport, 'reason' => $reportReasons[array_rand($reportReasons)], 'message' => $reportReasonsText[array_rand($reportReasonsText)]]);
+                            
+
+                            echoAsync("Покидаємо канал " . $peerToReport . "<span class=\"dots\">...</span>");
+                            $MadelineProto->channels->leaveChannel(['channel' => $peerToReport]);
+                            
                             echoAsync($reportResult ? '<span class="success">Вийшло!</span>' : '<span class="failed">Не вийшло :(</span>');
 
                             $analytics->sendReportResult($reportResult, $reportResult == false ? 'Unknown error' : null);
@@ -258,7 +288,9 @@
                         }
 
                         $waitTime = rand(4, 10);
-                        echoAsync("<br />\nДля безпеки чекаємо $waitTime секунд<span class=\"dots\">...</span>");
+                        $currentTimestamp = time();
+                        $waitEndTimestamp = time() + $waitTime;
+                        echoAsync("<br />\nДля безпеки чекаємо <span class=\"wait-time\" data-start=\"$currentTimestamp\" data-end=\"$waitEndTimestamp\">$waitTime</span> сек.<span class=\"dots\">...</span>");
                         sleep($waitTime);
 
                         if(connection_status() != CONNECTION_NORMAL)
