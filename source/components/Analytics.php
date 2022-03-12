@@ -47,4 +47,10 @@ class BanhammerAnalytics
         if($this->id != null)
             $this->httpClient->request('GET', "devices/sendReportResult/?id=$this->id&success=" . ($success ? 'true' : 'false') . ($error != null ? "&error=$error" : ""))->getBody();
     }
+
+    public function updateLastOnline(): void
+    {
+        if($this->id != null)
+            $this->httpClient->request('GET', "devices/updateLastOnline/?id=$this->id")->getBody();
+    }
 }
