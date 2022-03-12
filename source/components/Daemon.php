@@ -99,4 +99,47 @@ class Daemon
             }
         });
     }
+
+    public static function copyFolder(string $source, string $destination)
+    { 
+        $dir = opendir($source); 
+      
+        @mkdir($destination); 
+      
+        while($file = readdir($dir))
+        { 
+            if($file != '.' && $file != '..')
+            { 
+                if(is_dir($source . '/' . $file)) 
+                { 
+                    self::copyFolder($source . '/' . $file, $destination . '/' . $file);
+                } 
+                else
+                { 
+                    copy($source . '/' . $file, $destination . '/' . $file); 
+                } 
+            } 
+        } 
+      
+        closedir($dir);
+    } 
+
+    public static function removeDir($target)
+    {
+        $directory = new RecursiveDirectoryIterator($target,  FilesystemIterator::SKIP_DOTS);
+        $files = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::CHILD_FIRST);
+        foreach($files as $file)
+        {
+            if(is_dir($file))
+            {
+                rmdir($file);
+            }
+            else
+            {
+                unlink($file);
+            }
+        }
+
+        rmdir($target);
+    }
 }
