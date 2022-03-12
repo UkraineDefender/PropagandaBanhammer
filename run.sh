@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if ! [ -d "source" ] 
 then
@@ -28,7 +28,7 @@ case "$(uname -s)" in
                 echo '-----------------------------------------------------------'
                 echo ''
 
-                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.bash_profile
                 eval "$(/opt/homebrew/bin/brew shellenv)"
             fi 
 
@@ -54,7 +54,7 @@ case "$(uname -s)" in
             echo '-----------------------------------------------------------'
             echo ''
             
-            echo 'export PATH="/usr/local/opt/php@8.0/bin:$PATH"' >> ~/.zprofile
+            echo 'export PATH="/usr/local/opt/php@8.0/bin:$PATH"' >> ~/.bash_profile
             export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 
             if ! command -v php &> /dev/null

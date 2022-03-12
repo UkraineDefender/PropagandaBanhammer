@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 cd ~
 if [ -d "uadef" ]; then rm -Rf "uadef"; fi
@@ -43,6 +43,6 @@ echo '--------------------------'
 echo -e '\e[34mSuccessfully installed!\e[0m'
 echo ''
 echo 'INFO:'
-echo 'To run the program, use the command: cd ~/uadef/ && bash run.sh'
+echo 'To run the program, use the command: cd ~/uadef/ && /bin/bash run.sh'
 echo ''
 echo ''
